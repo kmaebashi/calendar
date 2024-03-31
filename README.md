@@ -14,10 +14,11 @@ Calendarクラスとして提供されています。
 const elem = document.getElementById("calendar");
 // カレンダーを貼る要素と初期選択の日付を渡して、Calendarを生成する。
 const calendar = new Calendar(elem, new Date());
-// 押したときにコールバックされるメソッドの設定。
+// 日付をクリックしたときにコールバックされるメソッドの設定。
+// コールバックされる際、選択された日付をDateオブジェクトで引数で渡される。
 calendar.setDatePickedCallback(clicked);
 ……
-// getCurrentDate()で現在選ばれている日付を取得することも可能。
+// 任意のタイミングで、getCurrentDate()で現在選ばれている日付を取得することも可能。
 const date = calendar.getCurrentDate();
 </script>
 ```
