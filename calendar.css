@@ -1,13 +1,20 @@
 td.calendar-left-arrow {
   cursor: pointer;
+  text-align: center;
+}
+
+td.calendar-header-month {
+  text-align: center;
 }
 
 td.calendar-right-arrow {
   cursor: pointer;
+  text-align: center;
 }
 
 td.calendar-date {
   cursor: pointer;
+  text-align: center;
 }
 
 td.calendar-saturday {

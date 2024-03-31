@@ -1,27 +1,3 @@
-function getLastNth(date) {
-  const date2 = new Date(date.getTime());
-  date2.setMonth(date.getMonth() + 1, 0);
-  return date2.getDate();
-}
-
-function getFirstYoubi(date) {
-  const date2 = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  date2.setDate(1);
-  return date2.getDay();
-}
-
-function fixLastDate(newYear, newMonth, oldDate) {
-  const tempDate = new Date(newYear, newMonth, 1);
-  const lastNth = getLastNth(tempDate);
-  if (oldDate > lastNth) {
-    newDate = lastNth;
-  } else {
-    newDate = oldDate;
-  }
-
-  return newDate;
-}
-
 class Calendar {
   constructor(targetElement, date) {
     this.targetElement = targetElement;
@@ -40,9 +16,9 @@ class Calendar {
     while (this.targetElement.firstChild ){
       this.targetElement.removeChild(this.targetElement.firstChild);
     }
-    const firstYoubi = getFirstYoubi(this.date);
+    const firstYoubi = Calendar.#getFirstYoubi(this.date);
     let nth = 0; // 月の中の何日目かを示す
-    let lastNth = getLastNth(this.date);
+    let lastNth = Calendar.#getLastNth(this.date);
     let endFlag = false;
 
     const tableElem = document.createElement("table");
@@ -56,7 +32,7 @@ class Calendar {
     const monthTd = document.createElement("td");
     monthTd.colSpan = 5;
     monthTd.innerText = this.date.getFullYear() + "年" + (this.date.getMonth() + 1) + "月";
-    monthTd.classList.add("calendar-month");
+    monthTd.classList.add("calendar-header-month");
     headTr.appendChild(monthTd);
 
     const rightArrowTd = document.createElement("td");
@@ -120,7 +96,7 @@ class Calendar {
     } else {
       newMonth = this.date.getMonth() - 1;
     }
-    newDate = fixLastDate(newYear, newMonth, this.date.getDate());
+    newDate = Calendar.#fixLastDate(newYear, newMonth, this.date.getDate());
     this.date = new Date(newYear, newMonth, newDate);
     this.render();
   }
@@ -136,7 +112,7 @@ class Calendar {
     } else {
       newMonth = this.date.getMonth() + 1;
     }
-    newDate = fixLastDate(newYear, newMonth, this.date.getDate());
+    newDate = Calendar.#fixLastDate(newYear, newMonth, this.date.getDate());
     this.date = new Date(newYear, newMonth, newDate);
     this.render();
   }
@@ -148,5 +124,31 @@ class Calendar {
     if (this.datePickedCallback !== undefined && this.datePickedCallback !== null) {
       this.datePickedCallback(this.date);
     }
+  }
+
+  static #getLastNth(date) {
+    const date2 = new Date(date.getTime());
+    date2.setMonth(date.getMonth() + 1, 0);
+    return date2.getDate();
+  }
+
+  static #getFirstYoubi(date) {
+    const date2 = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    date2.setDate(1);
+    return date2.getDay();
+  }
+
+  static #fixLastDate(newYear, newMonth, oldDate) {
+    const tempDate = new Date(newYear, newMonth, 1);
+    const lastNth = Calendar.#getLastNth(tempDate);
+    let newDate;
+
+    if (oldDate > lastNth) {
+      newDate = lastNth;
+    } else {
+      newDate = oldDate;
+    }
+
+    return newDate;
   }
 }
